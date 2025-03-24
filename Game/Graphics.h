@@ -6,6 +6,7 @@
 struct Graphics {
     SDL_Renderer *renderer;
     SDL_Window *window;
+    SDL_Texture *texture;
     const int SCREEN_WIDTH = 1200;
     const int SCREEN_HEIGHT = 900;
     const char* WINDOW_TITLE = "Game";
@@ -52,12 +53,12 @@ struct Graphics {
     {
         SDL_RenderPresent(renderer);
     }
-
     SDL_Texture *loadTexture(const char *filename)
     {
         SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO,
                        "Loading %s", filename);
         SDL_Texture *texture = IMG_LoadTexture(renderer, filename);
+
         if (texture == NULL)
             SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION,
                   SDL_LOG_PRIORITY_ERROR, "Load texture %s", IMG_GetError());
@@ -71,7 +72,8 @@ struct Graphics {
 
         dest.x = x;
         dest.y = y;
-        SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+        dest.w = 64;
+        dest.h = 64;
 
         SDL_RenderCopy(renderer, texture, NULL, &dest);
     }

@@ -20,13 +20,17 @@ struct Car
          Speed = 0.0f;
          MaxSpeed = 20.0f;
          Accel = 0.2f;
-         Turn = 0.05f;
+         Turn = 10.0f;
          Brake = 0.3f;
+
+         Sprite = {0,0,70,60};
+         Destination = {x,y,70,60};
     }
     void update()
     {
         y -= Speed;
-
+        Destination.w = 64;
+        Destination.h = 64;
     }
     void Accelerate()
     {
@@ -38,6 +42,9 @@ struct Car
     void Stop()
     {
         Speed -= Brake;
+        if(MaxSpeed < Speed){
+            Speed = MaxSpeed;
+        }
     }
     void TurnLeft()
     {
@@ -47,4 +54,5 @@ struct Car
     {
         x += Turn;
     }
+
 };

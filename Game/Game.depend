@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1742745325 source:c:\repository\game\main.cpp
+1742789582 source:c:\repository\game\main.cpp
 	<SDL.h>
 	<SDL_image.h>
-	<SDl_mixer.h>
+	<SDL_mixer.h>
 	"Graphics.h"
 	"Car.h"
 	<iostream>
@@ -519,7 +519,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1742657583 c:\repository\game\graphics.h
+1742786463 c:\repository\game\graphics.h
 	<SDL.h>
 	<SDL_image.h>
 
@@ -532,7 +532,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1742738049 c:\repository\game\car.h
+1742789618 c:\repository\game\car.h
 	<SDL.h>
 	<SDL_image.h>
 

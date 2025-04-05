@@ -9,6 +9,7 @@ struct Game
 {
     bool running;
     Car* Pcar;
+    bool up, down;
 
 };
 Graphics *graphic = nullptr;
@@ -20,43 +21,41 @@ int main(int argc, char* argv[])
     SDL_Event event;
     bool quit = false;
     SDL_Texture *carTexture = graphic->loadTexture("Blue.jpg");
+    SDL_Texture *background = graphic->loadTexture("Road.png");
 
     Car Player(carTexture, graphic->SCREEN_WIDTH/2, graphic->SCREEN_HEIGHT/2);
-
+    float backgroundY = 0.0f;
     while (!quit){
         SDL_PollEvent(&event);
-        if (event.type == SDL_QUIT){
-                quit = true;
-                break;
-        }else if(event.type == SDL_KEYDOWN){
-            switch(event.key.keysym.sym){
-            case SDLK_UP:
-                Player.Accelerate();
-                break;
-            case SDLK_DOWN:
-                Player.Stop();
-                break;
-            case SDLK_RIGHT:
-                Player.TurnRight();
-                break;
-            case SDLK_LEFT:
-                Player.TurnLeft();
-                break;
-            default:
-                break;
-            }
+        const Uint8* keystates = SDL_GetKeyboardState(NULL);
+        if (keystates[SDL_SCANCODE_UP]) {
+            Player.Accelerate();
         }
-        SDL_SetRenderDrawColor(graphic->renderer, 255, 255, 255, 255); // White background
-        SDL_RenderClear(graphic->renderer);
+        if (keystates[SDL_SCANCODE_DOWN]) {
+            Player.Stop();
+        }
+        if (keystates[SDL_SCANCODE_LEFT]) {
+            Player.TurnLeft();
+        }
+        if (keystates[SDL_SCANCODE_RIGHT]) {
+            Player.TurnRight();
+        }
         Player.update();
-        Player.Destination.x = Player.x / 2;
-        Player.Destination.y = Player.y / 2;
+        backgroundY += Player.Speed;
+        if (backgroundY >= 900) backgroundY -= 900;
+
         SDL_RenderClear(graphic->renderer);
 
-        graphic->renderTexture(carTexture,Player.x,Player.y);
+        graphic->renderTexture(background, 150, (int)(backgroundY - 900), 900, 900);
+        graphic->renderTexture(background, 150, (int)(backgroundY), 900, 900);
+
+        Player.y = 600;
+
+        cerr << Player.Speed;
+        graphic->renderTexture(carTexture,Player.x,Player.y,64,64);
 
         graphic->presentScene();
 
-        SDL_Delay(16);  // Approximately 60 FPS
+        SDL_Delay(8);
     }
 }

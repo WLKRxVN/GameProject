@@ -66,14 +66,14 @@ struct Graphics {
         return texture;
     }
 
-    void renderTexture(SDL_Texture *texture, int x, int y)
+    void renderTexture(SDL_Texture *texture, int x, int y, int w, int h)
     {
         SDL_Rect dest;
 
         dest.x = x;
         dest.y = y;
-        dest.w = 64;
-        dest.h = 64;
+        dest.w = w;
+        dest.h = h;
 
         SDL_RenderCopy(renderer, texture, NULL, &dest);
     }

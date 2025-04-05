@@ -18,7 +18,7 @@ struct Car
          x = StartX;
          y = StartY;
          Speed = 0.0f;
-         MaxSpeed = 20.0f;
+         MaxSpeed = 40.0f;
          Accel = 0.2f;
          Turn = 10.0f;
          Brake = 0.3f;
@@ -29,6 +29,7 @@ struct Car
     void update()
     {
         y -= Speed;
+
         Destination.w = 64;
         Destination.h = 64;
     }
@@ -41,9 +42,11 @@ struct Car
     }
     void Stop()
     {
-        Speed -= Brake;
-        if(MaxSpeed < Speed){
-            Speed = MaxSpeed;
+        if(Speed >= 0.0){
+            Speed -= Brake;
+            if(MaxSpeed < Speed){
+                Speed = MaxSpeed;
+            }
         }
     }
     void TurnLeft()

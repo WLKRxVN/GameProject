@@ -1,11 +1,12 @@
 # depslib dependency file v1.0
-1743857898 source:c:\repository\game\main.cpp
+1744394103 source:c:\repository\game\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
 	"Graphics.h"
 	"Car.h"
 	<iostream>
+	"obstacles.h"
 
 1698944750 c:\mingw\include\sdl.h
 	"SDL_main.h"
@@ -535,4 +536,12 @@
 1743859445 c:\repository\game\car.h
 	<SDL.h>
 	<SDL_image.h>
+
+1744393964 c:\repository\game\obstacles.h
+	<SDL.h>
+	<SDL_image.h>
+	<vector>
+	<random>
+	<algorithm>
+	<ctime>
 

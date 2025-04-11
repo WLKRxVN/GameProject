@@ -4,14 +4,8 @@
 #include"Graphics.h"
 #include"Car.h"
 #include<iostream>
+#include "obstacles.h"
 using namespace std;
-struct Game
-{
-    bool running;
-    Car* Pcar;
-    bool up, down;
-
-};
 Graphics *graphic = nullptr;
 int main(int argc, char* argv[])
 {
@@ -22,11 +16,18 @@ int main(int argc, char* argv[])
     bool quit = false;
     SDL_Texture *carTexture = graphic->loadTexture("Blue.jpg");
     SDL_Texture *background = graphic->loadTexture("Road.png");
+    SDL_Texture *Obstacle = graphic->loadTexture("RUM.jpg");
 
     Car Player(carTexture, graphic->SCREEN_WIDTH/2, graphic->SCREEN_HEIGHT/2);
     float backgroundY = 0.0f;
+    bool GameOver = false;
+    ObstacleManager manager(Obstacle,graphic->SCREEN_WIDTH);
+
     while (!quit){
         SDL_PollEvent(&event);
+        if(event.type == SDL_QUIT){
+            quit = true;
+        }
         const Uint8* keystates = SDL_GetKeyboardState(NULL);
         if (keystates[SDL_SCANCODE_UP]) {
             Player.Accelerate();
@@ -40,7 +41,15 @@ int main(int argc, char* argv[])
         if (keystates[SDL_SCANCODE_RIGHT]) {
             Player.TurnRight();
         }
-        Player.update();
+        if(!GameOver){
+            Player.update();
+            manager.update(Player.Speed);
+            if(manager.CheckCollsion(Player.x,Player.y,64,64)){
+                Player.Speed = 0;
+                GameOver = true;
+            }
+        }
+
         backgroundY += Player.Speed;
         if (backgroundY >= 900) backgroundY -= 900;
 
@@ -48,14 +57,14 @@ int main(int argc, char* argv[])
 
         graphic->renderTexture(background, 150, (int)(backgroundY - 900), 900, 900);
         graphic->renderTexture(background, 150, (int)(backgroundY), 900, 900);
+        manager.render(graphic->renderer);
 
         Player.y = 600;
 
-        cerr << Player.Speed;
         graphic->renderTexture(carTexture,Player.x,Player.y,64,64);
 
         graphic->presentScene();
 
-        SDL_Delay(8);
+        SDL_Delay(12);
     }
 }

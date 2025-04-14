@@ -20,8 +20,8 @@ struct Obstacle{
         x = startX;
         y = startY;
         speed = 0;
-        w = 64.0;
-        h = 64.0;
+        w = 128.0;
+        h = 128.0;
         active = true;
     }
 
@@ -44,7 +44,7 @@ struct ObstacleManager{
 
     ObstacleManager(SDL_Texture* texture, int width){
         Obstacle_Texture = texture;
-        SpawnRate = 180;
+        SpawnRate = 90;
         ObstacleTimer = 0;
         rng = mt19937(static_cast<unsigned int>(time(nullptr)));
         screenwidth = width;
@@ -77,7 +77,7 @@ struct ObstacleManager{
 
     void ObstacleSpawn()
     {
-        int LanePos[3] = {300, 600, 900};
+        int LanePos[3] = {250, 550, 850};
         uniform_int_distribution<int> laneDist(0, 2);
         int LaneIndex = laneDist(rng);
         int Lane = LanePos[LaneIndex];

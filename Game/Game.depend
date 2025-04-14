@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1744394103 source:c:\repository\game\main.cpp
+1744598143 source:c:\repository\game\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
@@ -520,9 +520,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1743057446 c:\repository\game\graphics.h
+1744604860 c:\repository\game\graphics.h
 	<SDL.h>
 	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
 
 1738937080 c:\mingw\sdl2_mixer-2.8.1\x86_64-w64-mingw32\include\sdl2\sdl_mixer.h
 	"SDL_stdinc.h"
@@ -537,11 +539,16 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1744393964 c:\repository\game\obstacles.h
+1744604860 c:\repository\game\obstacles.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
 	<random>
 	<algorithm>
 	<ctime>
+
+1705848875 c:\mingw\sdl2_ttf-2.22.0\x86_64-w64-mingw32\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
 

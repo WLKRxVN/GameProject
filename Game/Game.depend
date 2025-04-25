@@ -1,12 +1,14 @@
 # depslib dependency file v1.0
-1744598143 source:c:\repository\game\main.cpp
+1745596520 source:c:\repository\game\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
+	<SDL_ttf.h>
 	"Graphics.h"
 	"Car.h"
-	<iostream>
 	"obstacles.h"
+	"menu.h"
+	<iostream>
 
 1698944750 c:\mingw\include\sdl.h
 	"SDL_main.h"
@@ -520,7 +522,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1744604860 c:\repository\game\graphics.h
+1744815101 c:\repository\game\graphics.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
@@ -539,7 +541,7 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1744604860 c:\repository\game\obstacles.h
+1744690241 c:\repository\game\obstacles.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>
@@ -551,4 +553,13 @@
 	"SDL.h"
 	"begin_code.h"
 	"close_code.h"
+
+1745589824 c:\repository\game\menu.h
+	"Graphics.h"
+	<SDL_mixer.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<string>
+
+1744690037 c:\repository\game\music.h
 

@@ -11,7 +11,7 @@ struct Graphics {
     SDL_Texture *texture;
     const int SCREEN_WIDTH = 1200;
     const int SCREEN_HEIGHT = 900;
-    const char* WINDOW_TITLE = "Game";
+    const char* WINDOW_TITLE = "Racing Game";
 
 
     void logErrorAndExit(const char* msg, const char* error)
@@ -35,9 +35,10 @@ struct Graphics {
             logErrorAndExit( "SDL_image error:", IMG_GetError());
 
         renderer = SDL_CreateRenderer(window, -1,
-                     SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-                  SDL_CreateSoftwareRenderer(SDL_GetWindowSurface(window));
-
+             SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        if (renderer == nullptr) {
+            renderer = SDL_CreateSoftwareRenderer(SDL_GetWindowSurface(window));
+        }
         if (renderer == nullptr)
              logErrorAndExit("CreateRenderer", SDL_GetError());
 
@@ -47,6 +48,10 @@ struct Graphics {
         {
             logErrorAndExit( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
         }
+        if (TTF_Init() == -1) {
+            logErrorAndExit("SDL_ttf could not initialize! SDL_ttf Error: ", TTF_GetError());
+        }
+
     }
 
     void prepareScene(SDL_Texture * background)
@@ -88,9 +93,11 @@ struct Graphics {
     {
         IMG_Quit();
         Mix_Quit();
+        TTF_Quit();
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
         SDL_Quit();
+
     }
      Mix_Music *loadMusic(const char* path)
     {
@@ -132,6 +139,7 @@ struct Graphics {
         if (gFont == nullptr) {
             SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Load font %s", TTF_GetError());
         }
+        return gFont;
     }
 
     SDL_Texture* renderText(const char* text, TTF_Font* font, SDL_Color textColor)
@@ -151,4 +159,4 @@ struct Graphics {
         return texture;
     }
 };
-#endif  GRAPHICS__H
+#endif  //GRAPHICS__H

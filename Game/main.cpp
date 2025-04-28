@@ -70,6 +70,12 @@ int main(int argc, char* argv[])
                 if (event.type == SDL_KEYDOWN) {
                     if (event.key.keysym.sym == SDLK_RETURN ||
                         event.key.keysym.sym == SDLK_SPACE) {
+                        if (BGM != nullptr) {
+                            Mix_PlayMusic(BGM, -1);
+                        }
+                        if (manager != nullptr) {
+                            manager->reset();
+                        }
                         score = 0;
                         CurrentState = STATE_PLAYING;
                     } else if (event.key.keysym.sym == SDLK_ESCAPE) {
@@ -82,6 +88,12 @@ int main(int argc, char* argv[])
                     if (mouseX >= 500 && mouseX <= 700 &&
                         mouseY >= 500 && mouseY <= 600) {
                         score = 0;
+                        if (BGM != nullptr) {
+                            Mix_PlayMusic(BGM, -1);
+                        }
+                        if (manager != nullptr) {
+                            manager->reset();
+                        }
                         CurrentState = STATE_PLAYING;
                     }
                     else if (mouseX >= 500 && mouseX <= 700 &&
@@ -129,12 +141,14 @@ int main(int argc, char* argv[])
             if (carTexture == nullptr) carTexture = graphic->loadTexture("Blue.jpg");
             if (background == nullptr) background = graphic->loadTexture("Road.png");
             if (Obstacle == nullptr) Obstacle = graphic->loadTexture("RUM.jpg");
-            if (BGM == nullptr) BGM = graphic->loadMusic("NEO WINGS.wav");
-
-
+            if (BGM == nullptr) {
+                BGM = graphic->loadMusic("NEO-WINGS.wav");
+                if (BGM != nullptr){
+                    Mix_PlayMusic(BGM, -1);
+                }
+            }
             if (Player == nullptr) Player = new Car(carTexture, graphic->SCREEN_WIDTH/2, 700);
             if (manager == nullptr) manager = new ObstacleManager(Obstacle, graphic->SCREEN_WIDTH);
-
 
             const Uint8* keystates = SDL_GetKeyboardState(NULL);
             if (keystates[SDL_SCANCODE_UP]) {
@@ -166,6 +180,7 @@ int main(int argc, char* argv[])
 
             if (manager->CheckCollsion(Player->x, Player->y, 64, 64)) {
                 Player->Speed = 0;
+                Mix_HaltMusic();
                 CurrentState = STATE_LOSE;
             }
 
@@ -191,10 +206,8 @@ int main(int argc, char* argv[])
             graphic->presentScene();
         }
         else if (CurrentState == STATE_LOSE) {
-
             menu.RenderGameOver(*graphic, font, score);
         }
-
         SDL_Delay(16);
     }
 

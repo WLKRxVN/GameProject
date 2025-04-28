@@ -44,7 +44,7 @@ struct ObstacleManager{
 
     ObstacleManager(SDL_Texture* texture, int width){
         Obstacle_Texture = texture;
-        SpawnRate = 60;
+        SpawnRate = 120;
         ObstacleTimer = 0;
         rng = mt19937(static_cast<unsigned int>(time(nullptr)));
         screenwidth = width;

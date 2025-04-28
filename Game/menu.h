@@ -39,7 +39,7 @@ struct Menu {
         }
 
         if (LobbyTheme) {
-            G.play(LobbyTheme);
+          G.play(LobbyTheme);
         }
 
         SDL_RenderClear(G.renderer);
@@ -94,6 +94,11 @@ struct Menu {
         RestartText = nullptr;
         MenuText = nullptr;
         FinalScoreText = nullptr;
+    }
+    void StopMusic(){
+       if(Mix_PlayingMusic()){
+            Mix_HaltMusic();
+        }
     }
 
     ~Menu() {

@@ -18,7 +18,7 @@ struct Car
          x = StartX;
          y = StartY;
          Speed = 0.0f;
-         MaxSpeed = 40.0f;
+         MaxSpeed = 30.0f;
          Accel = 0.2f;
          Turn = 10.0f;
          Brake = 0.3f;

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1745849834 source:c:\repository\game\main.cpp
+1745858634 source:c:\repository\game\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
@@ -10,6 +10,7 @@
 	"menu.h"
 	"Highscore.h"
 	<iostream>
+	"Music.h"
 
 1698944750 c:\mingw\include\sdl.h
 	"SDL_main.h"
@@ -538,7 +539,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1743859445 c:\repository\game\car.h
+1745857928 c:\repository\game\car.h
 	<SDL.h>
 	<SDL_image.h>
 
@@ -563,7 +564,11 @@
 	<SDL_ttf.h>
 	<string>
 
-1744690037 c:\repository\game\music.h
+1745858052 c:\repository\game\music.h
+	<vector>
+	<string>
+	<random>
+	<SDL_mixer.h>
 
 1745849847 c:\repository\game\highscore.h
 	<fstream>

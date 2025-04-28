@@ -8,6 +8,7 @@
 #include"menu.h"
 #include"Highscore.h"
 #include<iostream>
+#include"Music.h"
 using namespace std;
 
 Graphics *graphic = nullptr;
@@ -30,6 +31,12 @@ int main(int argc, char* argv[])
     Menu menu;
     menu.LoadAssets(*graphic, font);
 
+    MusicManager musicManager;
+    musicManager.AddMusic("assets/NEO-WINGS.wav");
+    musicManager.AddMusic("assets/test.wav");
+    //musicManager.AddMusic();
+    //musicManager.AddMusic();
+
     Mix_Chunk *gAccel = nullptr;
     Mix_Chunk *gBrake = nullptr;
     SDL_Texture *carTexture = nullptr;
@@ -37,8 +44,9 @@ int main(int argc, char* argv[])
     SDL_Texture *Obstacle = nullptr;
     Car *Player = nullptr;
     ObstacleManager *manager = nullptr;
-    Mix_Music *BGM = nullptr;
     float backgroundY = 0.0f;
+
+    GameState PreviousState = STATE_MENU;
 
     while (!quit) {
 
@@ -72,9 +80,7 @@ int main(int argc, char* argv[])
                 if (event.type == SDL_KEYDOWN) {
                     if (event.key.keysym.sym == SDLK_RETURN ||
                         event.key.keysym.sym == SDLK_SPACE) {
-                        if (BGM != nullptr) {
-                            Mix_PlayMusic(BGM, -1);
-                        }
+                        musicManager.PlayRandomTrack();
                         if (manager != nullptr) {
                             manager->reset();
                         }
@@ -90,9 +96,7 @@ int main(int argc, char* argv[])
                     if (mouseX >= 500 && mouseX <= 700 &&
                         mouseY >= 500 && mouseY <= 600) {
                         score = 0;
-                        if (BGM != nullptr) {
-                            Mix_PlayMusic(BGM, -1);
-                        }
+                        musicManager.PlayRandomTrack();
                         if (manager != nullptr) {
                             manager->reset();
                         }
@@ -134,21 +138,17 @@ int main(int argc, char* argv[])
             delete manager;
             manager = nullptr;
 
-
             menu.RenderMenu(*graphic, font);
         }
         else if (CurrentState == STATE_PLAYING) {
+            if (!Mix_PlayingMusic()) {
+                musicManager.PlayRandomTrack();
+            }
             if (gAccel == nullptr) gAccel = graphic->loadSound("assets/accelerate.mp3");
             if (gBrake == nullptr) gBrake = graphic->loadSound("assets/brake-6315.wav");
             if (carTexture == nullptr) carTexture = graphic->loadTexture("assets/Blue.jpg");
             if (background == nullptr) background = graphic->loadTexture("assets/Road.png");
             if (Obstacle == nullptr) Obstacle = graphic->loadTexture("assets/RUM.jpg");
-            if (BGM == nullptr) {
-                BGM = graphic->loadMusic("assets/NEO-WINGS.wav");
-                if (BGM != nullptr){
-                    Mix_PlayMusic(BGM, -1);
-                }
-            }
             if (Player == nullptr) Player = new Car(carTexture, graphic->SCREEN_WIDTH/2, 700);
             if (manager == nullptr) manager = new ObstacleManager(Obstacle, graphic->SCREEN_WIDTH);
 
@@ -214,6 +214,15 @@ int main(int argc, char* argv[])
         else if (CurrentState == STATE_LOSE) {
             menu.RenderGameOver(*graphic, font, score, highscore);
         }
+        if (PreviousState != CurrentState) {
+            if (CurrentState == STATE_PLAYING) {
+                Mix_HaltMusic();
+                musicManager.PlayRandomTrack();
+            }else if (CurrentState == STATE_MENU) {
+                Mix_HaltMusic();
+             }
+        PreviousState = CurrentState;
+        }
         SDL_Delay(16);
     }
 
@@ -223,10 +232,10 @@ int main(int argc, char* argv[])
     if (carTexture != nullptr) SDL_DestroyTexture(carTexture);
     if (background != nullptr) SDL_DestroyTexture(background);
     if (Obstacle != nullptr) SDL_DestroyTexture(Obstacle);
-    if (BGM != nullptr) Mix_FreeMusic(BGM);
     delete Player;
     delete manager;
     menu.CleanupAssets();
+    musicManager.cleanup();
     if (font != nullptr) TTF_CloseFont(font);
     saveHighscore(highscore);
 

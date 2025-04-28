@@ -1,6 +1,7 @@
 #ifndef MENU_H_INCLUDED
 #define MENU_H_INCLUDED
 #include"Graphics.h"
+#include"Highscore.h"
 #include<SDL_mixer.h>
 #include<SDL_image.h>
 #include<SDL_ttf.h>
@@ -13,6 +14,7 @@ struct Menu {
     SDL_Texture* BG = nullptr;
     Mix_Music* LobbyTheme = nullptr;
 
+    SDL_Texture* HighscoreText = nullptr;
     SDL_Texture* GameOverText = nullptr;
     SDL_Texture* RestartText = nullptr;
     SDL_Texture* MenuText = nullptr;
@@ -24,9 +26,10 @@ struct Menu {
         Title = G.renderText("Racing Game", font, white);
         Start = G.renderText("Start", font, white);
         Quit = G.renderText("Quit", font, white);
-        BG = G.loadTexture("Background.jpg");
-        LobbyTheme = G.loadMusic("LobbyTheme.wav");
+        BG = G.loadTexture("assets/Background.jpg");
+        LobbyTheme = G.loadMusic("assets/LobbyTheme.wav");
 
+        HighscoreText = G.renderText("Highscore: ",font,white);
         GameOverText = G.renderText("Game Over", font, white);
         RestartText = G.renderText("Restart", font, white);
         MenuText = G.renderText("Menu", font, white);
@@ -50,7 +53,7 @@ struct Menu {
         G.presentScene();
     }
 
-    void RenderGameOver(Graphics &G, TTF_Font* font, int score) {
+    void RenderGameOver(Graphics &G, TTF_Font* font, int score, int Highscore) {
         if (!GameOverText || !RestartText || !MenuText) {
             SDL_Color white = {255, 255, 255};
             GameOverText = G.renderText("Game Over", font, white);
@@ -62,12 +65,17 @@ struct Menu {
         if (FinalScoreText) {
             SDL_DestroyTexture(FinalScoreText);
         }
+        if (HighscoreText){
+            SDL_DestroyTexture(HighscoreText);
+        }
         FinalScoreText = G.renderText(("Final Score: " + std::to_string(score)).c_str(), font, white);
+        HighscoreText = G.renderText(("Highscore: " + std::to_string(Highscore)).c_str(), font, white);
 
         SDL_RenderClear(G.renderer);
         if (BG) G.renderTexture(BG, 0, 0, G.SCREEN_WIDTH, G.SCREEN_HEIGHT);
         if (GameOverText) G.renderTexture(GameOverText, 450, 250, 300, 100);
         if (FinalScoreText) G.renderTexture(FinalScoreText, 450, 350, 300, 50);
+        if (HighscoreText) G.renderTexture(HighscoreText,450,425,300,50);
         if (RestartText) G.renderTexture(RestartText, 500, 500, 200, 100);
         if (MenuText) G.renderTexture(MenuText, 500, 650, 200, 100);
         G.presentScene();

@@ -6,6 +6,7 @@
 #include"Car.h"
 #include"obstacles.h"
 #include"menu.h"
+#include"Highscore.h"
 #include<iostream>
 using namespace std;
 
@@ -18,12 +19,13 @@ int main(int argc, char* argv[])
     graphic = new Graphics();
     graphic->init();
 
-    TTF_Font *font = graphic->loadFont("Pixellettersfull-BnJ5.ttf", 48);
+    TTF_Font *font = graphic->loadFont("assets/Pixellettersfull-BnJ5.ttf", 48);
 
     SDL_Event event;
     bool quit = false;
     GameState CurrentState = STATE_MENU;
     int score = 0;
+    int highscore = loadHighscore();
 
     Menu menu;
     menu.LoadAssets(*graphic, font);
@@ -136,13 +138,13 @@ int main(int argc, char* argv[])
             menu.RenderMenu(*graphic, font);
         }
         else if (CurrentState == STATE_PLAYING) {
-            if (gAccel == nullptr) gAccel = graphic->loadSound("accelerate.mp3");
-            if (gBrake == nullptr) gBrake = graphic->loadSound("brake-6315.wav");
-            if (carTexture == nullptr) carTexture = graphic->loadTexture("Blue.jpg");
-            if (background == nullptr) background = graphic->loadTexture("Road.png");
-            if (Obstacle == nullptr) Obstacle = graphic->loadTexture("RUM.jpg");
+            if (gAccel == nullptr) gAccel = graphic->loadSound("assets/accelerate.mp3");
+            if (gBrake == nullptr) gBrake = graphic->loadSound("assets/brake-6315.wav");
+            if (carTexture == nullptr) carTexture = graphic->loadTexture("assets/Blue.jpg");
+            if (background == nullptr) background = graphic->loadTexture("assets/Road.png");
+            if (Obstacle == nullptr) Obstacle = graphic->loadTexture("assets/RUM.jpg");
             if (BGM == nullptr) {
-                BGM = graphic->loadMusic("NEO-WINGS.wav");
+                BGM = graphic->loadMusic("assets/NEO-WINGS.wav");
                 if (BGM != nullptr){
                     Mix_PlayMusic(BGM, -1);
                 }
@@ -200,13 +202,17 @@ int main(int argc, char* argv[])
 
             SDL_Color white = {255, 255, 255};
             SDL_Texture* scoreText = graphic->renderText(("Score: " + to_string(score)).c_str(), font, white);
+
+            if (score > highscore) {
+            highscore = score;
+            }
             graphic->renderTexture(scoreText, 50, 50, 200, 50);
             SDL_DestroyTexture(scoreText);
 
             graphic->presentScene();
         }
         else if (CurrentState == STATE_LOSE) {
-            menu.RenderGameOver(*graphic, font, score);
+            menu.RenderGameOver(*graphic, font, score, highscore);
         }
         SDL_Delay(16);
     }
@@ -222,6 +228,7 @@ int main(int argc, char* argv[])
     delete manager;
     menu.CleanupAssets();
     if (font != nullptr) TTF_CloseFont(font);
+    saveHighscore(highscore);
 
     delete graphic;
 

@@ -33,9 +33,8 @@ int main(int argc, char* argv[])
 
     MusicManager musicManager;
     musicManager.AddMusic("assets/NEO-WINGS.wav");
-    musicManager.AddMusic("assets/test.wav");
-    //musicManager.AddMusic();
-    //musicManager.AddMusic();
+    musicManager.AddMusic("assets/Gas.wav");
+    musicManager.AddMusic("assets/Berry Delight.wav");
 
     Mix_Chunk *gAccel = nullptr;
     Mix_Chunk *gBrake = nullptr;
@@ -148,7 +147,7 @@ int main(int argc, char* argv[])
             if (gBrake == nullptr) gBrake = graphic->loadSound("assets/brake-6315.wav");
             if (carTexture == nullptr) carTexture = graphic->loadTexture("assets/Blue.jpg");
             if (background == nullptr) background = graphic->loadTexture("assets/Road.png");
-            if (Obstacle == nullptr) Obstacle = graphic->loadTexture("assets/RUM.jpg");
+            if (Obstacle == nullptr) Obstacle = graphic->loadTexture("assets/carImage.jpg");
             if (Player == nullptr) Player = new Car(carTexture, graphic->SCREEN_WIDTH/2, 700);
             if (manager == nullptr) manager = new ObstacleManager(Obstacle, graphic->SCREEN_WIDTH);
 

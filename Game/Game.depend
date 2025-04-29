@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1745858634 source:c:\repository\game\main.cpp
+1745859853 source:c:\repository\game\main.cpp
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_mixer.h>
@@ -539,11 +539,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1745857928 c:\repository\game\car.h
+1745898572 c:\repository\game\car.h
 	<SDL.h>
 	<SDL_image.h>
 
-1745847092 c:\repository\game\obstacles.h
+1745898572 c:\repository\game\obstacles.h
 	<SDL.h>
 	<SDL_image.h>
 	<vector>

@@ -62,8 +62,8 @@
 		</ExtraCommands>
 		<Unit filename="Car.h" />
 		<Unit filename="Graphics.h" />
+		<Unit filename="Highscore.h" />
 		<Unit filename="Music.h" />
-		<Unit filename="Road.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="menu.h" />
 		<Unit filename="obstacles.h" />

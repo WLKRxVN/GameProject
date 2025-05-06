@@ -41,6 +41,7 @@ int main(int argc, char* argv[])
     SDL_Texture *carTexture = nullptr;
     SDL_Texture *background = nullptr;
     SDL_Texture *Obstacle = nullptr;
+    SDL_Texture *BG = nullptr;
     Car *Player = nullptr;
     ObstacleManager *manager = nullptr;
     float backgroundY = 0.0f;
@@ -146,6 +147,7 @@ int main(int argc, char* argv[])
             if (gAccel == nullptr) gAccel = graphic->loadSound("assets/accelerate.mp3");
             if (gBrake == nullptr) gBrake = graphic->loadSound("assets/brake-6315.wav");
             if (carTexture == nullptr) carTexture = graphic->loadTexture("assets/Blue.jpg");
+            if (BG == nullptr) BG = graphic->loadTexture("assets/Background.jpg");
             if (background == nullptr) background = graphic->loadTexture("assets/Road.png");
             if (Obstacle == nullptr) Obstacle = graphic->loadTexture("assets/carImage.jpg");
             if (Player == nullptr) Player = new Car(carTexture, graphic->SCREEN_WIDTH/2, 700);
@@ -190,6 +192,7 @@ int main(int argc, char* argv[])
             if (backgroundY >= 900) backgroundY -= 900;
 
             SDL_RenderClear(graphic->renderer);
+            graphic->renderTexture(BG,0,0,1200,900);
             graphic->renderTexture(background, 150, (int)(backgroundY - 900), 900, 900);
             graphic->renderTexture(background, 150, (int)(backgroundY), 900, 900);
             manager->render(graphic->renderer);
@@ -231,6 +234,7 @@ int main(int argc, char* argv[])
     if (carTexture != nullptr) SDL_DestroyTexture(carTexture);
     if (background != nullptr) SDL_DestroyTexture(background);
     if (Obstacle != nullptr) SDL_DestroyTexture(Obstacle);
+    if (BG != nullptr) SDL_DestroyTexture(BG);
     delete Player;
     delete manager;
     menu.CleanupAssets();
